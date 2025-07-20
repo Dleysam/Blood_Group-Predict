@@ -8,7 +8,7 @@ import zipfile
 app = Flask(__name__)
 
 # 👉 Check if the SavedModel folder exists, else unzip it
-if not os.path.exists('bloodgroup_savedmodel'):
+if not os.path.exists('fingerprint_bloodgroup_savedmodel'):
     if os.path.exists('bloodgroup_savedmodel.zip'):
         print("Unzipping SavedModel...")
         with zipfile.ZipFile('bloodgroup_savedmodel.zip', 'r') as zip_ref:
@@ -18,7 +18,7 @@ if not os.path.exists('bloodgroup_savedmodel'):
         raise FileNotFoundError("SavedModel folder and ZIP not found!")
 
 # ✅ Load the SavedModel after ensuring it’s there
-model = load_model('bloodgroup_savedmodel')
+model = load_model('fingerprint_bloodgroup_savedmodel')
 
 # Your classes
 class_names = ['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-']
