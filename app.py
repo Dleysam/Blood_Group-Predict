@@ -7,15 +7,16 @@ import zipfile
 
 app = Flask(__name__)
 
-# 👉 Check if the SavedModel folder exists, else unzip it
-if not os.path.exists('fingerprint_bloodgroup_savedmodel'):
+# ✅ Unzip & auto-detect SavedModel
+if not any('saved_model.pb' in files for _, _, files in os.walk(".")):
     if os.path.exists('bloodgroup_savedmodel.zip'):
         print("Unzipping SavedModel...")
         with zipfile.ZipFile('bloodgroup_savedmodel.zip', 'r') as zip_ref:
-            zip_ref.extractall('bloodgroup_savedmodel')
+            zip_ref.extractall('.')
         print("Unzipping done.")
     else:
-        raise FileNotFoundError("SavedModel folder and ZIP not found!")
+        raise FileNotFoundError("SavedModel ZIP not found!")
+
 print("\n===> After Unzip, folders and files:")
 for root, dirs, files in os.walk(".", topdown=True):
     print("ROOT:", root)
@@ -23,10 +24,20 @@ for root, dirs, files in os.walk(".", topdown=True):
         print("   DIR:", name)
     for name in files:
         print("   FILE:", name)
-# ✅ Load the SavedModel after ensuring it’s there
-model = load_model('fingerprint_bloodgroup_savedmodel')
 
-# Your classes
+saved_model_dir = None
+for root, dirs, files in os.walk("."):
+    if 'saved_model.pb' in files:
+        saved_model_dir = root
+        break
+
+if saved_model_dir is None:
+    raise FileNotFoundError("❌ Could not find any folder containing saved_model.pb!")
+
+print(f"✅ Using SavedModel folder: {saved_model_dir}")
+
+model = load_model(saved_model_dir)
+
 class_names = ['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-']
 
 @app.route('/')
