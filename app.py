@@ -40,35 +40,22 @@ model = load_model(saved_model_dir)
 
 class_names = ['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-']
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
-    try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file uploaded'})
-
-        file = request.files['file']
-        img = Image.open(file).convert('RGB')
-        img = img.resize((128, 128))
-        img_array = np.array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-
-        print("✅ Model input shape:", model.input_shape)
-        print("✅ Prepared img_array shape:", img_array.shape)
-
-        predictions = model.predict(img_array)
-        predicted_index = np.argmax(predictions[0])
-        predicted_class = class_names[predicted_index]
-
-        print("✅ Predicted:", predicted_class)
-
-        return jsonify({'predicted_blood_group': predicted_class})
-
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
-
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'})
+    file = request.files['file']
+    img = Image.open(file).convert('RGB').resize((128, 128))
+    img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
+    predictions = model.predict(img_array)
+    predicted_index = np.argmax(predictions[0])
+    predicted_class = class_names[predicted_index]
+    return jsonify({'predicted_blood_group': predicted_class})
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
