@@ -18,7 +18,7 @@ if not os.path.exists('bloodgroup_savedmodel'):
         raise FileNotFoundError("SavedModel folder and ZIP not found!")
 
 # ✅ Load the SavedModel after ensuring it’s there
-model = load_model('fingerprint_bloodgroup_savedmodel')
+model = load_model('bloodgroup_savedmodel')
 
 # Your classes
 class_names = ['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-', 'O+', 'O-']
