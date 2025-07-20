@@ -38,7 +38,7 @@
 
   <div class="upload-card">
     <h2>Predict Blood Group</h2>
-    <form id="upload-form" enctype="multipart/form-data">
+    <form id="upload-form" action="/predict" method="POST" enctype="multipart/form-data">
       <div class="mb-3">
         <input class="form-control" type="file" id="file-input" name="file" accept="image/*" required>
       </div>
