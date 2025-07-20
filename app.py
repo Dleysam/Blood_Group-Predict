@@ -16,7 +16,13 @@ if not os.path.exists('fingerprint_bloodgroup_savedmodel'):
         print("Unzipping done.")
     else:
         raise FileNotFoundError("SavedModel folder and ZIP not found!")
-
+print("\n===> After Unzip, folders and files:")
+for root, dirs, files in os.walk(".", topdown=True):
+    print("ROOT:", root)
+    for name in dirs:
+        print("   DIR:", name)
+    for name in files:
+        print("   FILE:", name)
 # ✅ Load the SavedModel after ensuring it’s there
 model = load_model('fingerprint_bloodgroup_savedmodel')
 
