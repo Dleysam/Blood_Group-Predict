@@ -8,11 +8,11 @@ import zipfile
 app = Flask(__name__)
 
 # 👉 Check if the SavedModel folder exists, else unzip it
-if not os.path.exists('fingerprint_bloodgroup_savedmodel'):
+if not os.path.exists('bloodgroup_savedmodel'):
     if os.path.exists('bloodgroup_savedmodel.zip'):
         print("Unzipping SavedModel...")
         with zipfile.ZipFile('bloodgroup_savedmodel.zip', 'r') as zip_ref:
-            zip_ref.extractall('fingerprint_bloodgroup_savedmodel')
+            zip_ref.extractall('bloodgroup_savedmodel')
         print("Unzipping done.")
     else:
         raise FileNotFoundError("SavedModel folder and ZIP not found!")
