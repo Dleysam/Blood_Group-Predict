@@ -8,7 +8,7 @@ os.environ["TF_USE_LEGACY_KERAS"] = "1"
 app = Flask(__name__)
 
 # ✅ Vercel-friendly Pathing
-# This looks for the folder 'bloodgroup_savedmodel' in your main directory
+# This looks for the folder 'bloodgroup_savedmodel' in my main directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, 'bloodgroup_savedmodel')
 
